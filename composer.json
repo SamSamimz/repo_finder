@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "google/apiclient": "2.15.0",
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
@@ -32,6 +33,7 @@
         }
     },
     "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
@@ -51,7 +53,13 @@
     "extra": {
         "laravel": {
             "dont-discover": []
-        }
+        },
+        "google/apiclient-services": [
+            "Drive",
+            "YouTube",
+            "YouTubeAnalytics",
+            "YouTubeReporting"
+        ]
     },
     "config": {
         "optimize-autoloader": true,

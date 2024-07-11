@@ -2,35 +2,32 @@
 
 namespace App\Livewire;
 
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
+use App\Services\GithubService;
+use App\Services\YoutubeService;
 use Livewire\Component;
 
 class Home extends Component
 {
     public $searchOn = false;
     public $searchTerm = '';
-    public $repositories = [];
+    public $githubRepositories = [];
+    public $youtubeRepositories = [];
     public $showingRepository = false;
+    protected $githubService;
+    protected $youtubeService;
+    public function boot(GithubService $githubService, YoutubeService $youtubeService) {
+        $this->githubService = $githubService;
+        $this->youtubeService = $youtubeService;
+    }
 
     public function submit() {
         if(empty($this->searchTerm)) {
             return;
         }
-        $client = new Client();
-        $response = $client->get('https://api.github.com/search/repositories', [
-            'query' => [
-                'q' => $this->searchTerm
-            ],
-            'headers' => [
-                'Accept' => 'application/vnd.github.v3+json',
-                'User-Agent' => 'RepoFinder'
-            ]
-        ]);
-        $data = json_decode($response->getBody()->getContents(), true);
-        $this->repositories = $data['items'] ?? [];
-        $showingRepository = true;
-        
+
+        $this->githubRepositories = $this->githubService->search($this->searchTerm);
+        $this->youtubeRepositories = $this->youtubeService->search($this->searchTerm);
+        // dd($this->youtubeRepositories);
     }
 
     public function render()

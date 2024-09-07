@@ -2,13 +2,14 @@
     <div id="section" class="row d-flex align-items-center justify-content-center">
         <div class="text-center">
             @if ($searchOn)
-            {{-- <input type="text" class="form-control"> --}}
             <div wire:transition class="col-8 mx-auto">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" wire:model='searchTerm'
                         placeholder="Search for github repo...">
+                    @if (empty($searchTerm))
                     <button class="btn btn-primary" type="button" id="button-search"
                         wire:click='submit()'>Search</button>
+                    @endif
                 </div>
             </div>
             @else
@@ -18,27 +19,28 @@
             @endif
         </div>
         <div class="bg-white rounded">
-            <div wire:loading.remove wire:target='searchTerm'>
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        @if ($this->githubRepositories)
-                        @foreach ($githubRepositories as $repo)
-                        {{-- Github Repositories --}}
-                        @include('components.github-repo-item',['repo' => $repo])
-                        @endforeach
-                        @endif
-                    </div>
-                    <div class="col-12 col-md-6">
-                        @if ($this->youtubeRepositories)
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    @if ($this->githubRepositories)
+                    @foreach ($githubRepositories as $repo)
+                    @include('components.github-repo-item',['repo' => $repo])
+                    @endforeach
+                    @endif
+                </div>
+                <div class="col-12 col-md-6">
+                    @if ($this->youtubeRepositories)
+                    <div class="row">
                         @foreach ($youtubeRepositories as $repo)
-                        {{-- Youtube Repositories --}}
-                        @include('components.youtube-repo-item',['repo' => $repo])
+                        <div class="col-12 col-sm-6 mb-3">
+                            @include('components.youtube-repo-item', ['repo' => $repo])
+                        </div>
                         @endforeach
-                        @endif
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
+
     </div>
     <div wire:loading>
         <livewire:loader>

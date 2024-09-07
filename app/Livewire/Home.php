@@ -16,7 +16,7 @@ class Home extends Component
     protected $githubService;
     protected $youtubeService;
     public function boot(GithubService $githubService, YoutubeService $youtubeService) {
-        $this->githubService = $githubService;
+        $this->githubService  = $githubService;
         $this->youtubeService = $youtubeService;
     }
 
@@ -25,9 +25,8 @@ class Home extends Component
             return;
         }
 
-        $this->githubRepositories = $this->githubService->search($this->searchTerm);
+        $this->githubRepositories  = $this->githubService->search($this->searchTerm);
         $this->youtubeRepositories = $this->youtubeService->search($this->searchTerm);
-        // dd($this->youtubeRepositories);
     }
 
     public function render()
@@ -35,5 +34,3 @@ class Home extends Component
         return view('home');
     }
 }
-
-
